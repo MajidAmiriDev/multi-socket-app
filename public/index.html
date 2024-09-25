@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Multiple Namespaces</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h1>Socket.IO with Multiple Namespaces</h1>
+
+  <button id="button1">Connect to Button 1 and Send Message</button>
+  <button id="button2">Connect to Button 2 and Send Message</button>
+  <button id="button3">Connect to Button 3 and Send Message</button>
+
+  <script>
+    const button1Socket = io('/button1');
+    document.getElementById('button1').addEventListener('click', () => {
+      button1Socket.emit('message_from_button', { message: 'Hello from Button 1' });
+    });
+
+    const button2Socket = io('/button2');
+    document.getElementById('button2').addEventListener('click', () => {
+      button2Socket.emit('message_from_button', { message: 'Hello from Button 2' });
+    });
+
+    const button3Socket = io('/button3');
+    document.getElementById('button3').addEventListener('click', () => {
+      button3Socket.emit('message_from_button', { message: 'Hello from Button 3' });
+    });
+
+    button1Socket.on('message_from_button', (msg) => {
+      console.log('Message in button1 namespace:', msg);
+    });
+
+    button2Socket.on('message_from_button', (msg) => {
+      console.log('Message in button2 namespace:', msg);
+    });
+
+    button3Socket.on('message_from_button', (msg) => {
+      console.log('Message in button3 namespace:', msg);
+    });
+  </script>
+</body>
+</html>
